@@ -65,10 +65,10 @@ public class GamePadInput : BaseGameInput
             _speed0Sent = speed == 0;
         }
     }
+
     public override async Task Close()
     {
         await Task.CompletedTask;
         Joystick.Unacquire();
     }
-
 }

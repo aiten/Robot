@@ -15,22 +15,21 @@ using MqttService.Abstraction;
 public class RobotControlService : MqttService, IRobotControlService
 {
     private readonly ILogger<RobotControlService> _logger;
-    private readonly IConfiguration _configuration;
+    private readonly IConfiguration               _configuration;
 
-    public event EventHandler<(string, string)>? PublishMessage = default;
+    public event EventHandler<(string, string)>? PublishMessage  = default;
     public event EventHandler<(string, string)>? ReceivedMessage = default;
 
 
     public RobotControlService(ILogger<RobotControlService> logger, IConfiguration configuration)
     {
-        _logger = logger;
+        _logger        = logger;
         _configuration = configuration;
     }
 
     public async Task InitAsync()
     {
         await Task.CompletedTask;
-
     }
 
     public async Task OnMessageReceived(string topic, string payload)
@@ -52,9 +51,10 @@ public class RobotControlService : MqttService, IRobotControlService
             return string.Empty;
         }
     }
+
     public async Task<string> Go(string robotName, uint direction, uint? speed, uint? duration)
     {
-        var speedStr = speed.HasValue ? $"\"speed\": {speed.Value}," : string.Empty;
+        var speedStr    = speed.HasValue ? $"\"speed\": {speed.Value}," : string.Empty;
         var durationStr = duration.HasValue ? $"\"duration\": {duration.Value}," : string.Empty;
 
         try

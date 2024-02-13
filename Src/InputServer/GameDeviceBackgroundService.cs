@@ -1,10 +1,13 @@
 ﻿namespace InputServer;
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using InputServer.GameInput;
+
 using InputService.Abstraction;
 
 using Microsoft.Extensions.Configuration;
@@ -100,28 +103,44 @@ public class GameDeviceBackgroundService : BackgroundService
         return gameInputs;
     }
 
+    private int _count = 0;
+
     private async Task<BaseGameInput?> CreateGameInput(Joystick device)
     {
         await Task.CompletedTask;
 
+        var deviceConfigInfo = _configuration.GetSection("Devices").Get<IList<DeviceInfo>>();
+
+        _count++;
+        var type   = GameInputFactory.DeviceType.None;
+        var sendTo = $"Virtual{_count}";
+
         _logger.LogInformation($"Found Joystick/Gamepad with GUID: {device.Information.InstanceGuid} - {device.Information.InstanceName}");
         _logger.LogInformation($"Effect available: {string.Join(',', device.GetEffects().Select(effectInfo => effectInfo.Name))}");
 
-        // Set BufferSize in order to use buffered data.
-        device.Properties.BufferSize = 128;
+        var info = (deviceConfigInfo?.FirstOrDefault(d => d.Guid == device.Information.InstanceGuid)) ??
+                   deviceConfigInfo?.FirstOrDefault(d => d.Name == device.Information.InstanceName);
 
-        // Acquire the joystick
+        if (info is null)
+        {
+            if (device.Capabilities.ButtonCount == 10)
+            {
+                type = GameInputFactory.DeviceType.GameMat;
+            }
+            else if (device.Capabilities.AxeCount == 5)
+            {
+                type = GameInputFactory.DeviceType.GamePad;
+            }
+        }
+        else
+        {
+            type   = Enum.Parse<GameInputFactory.DeviceType>(info.Type);
+            sendTo = info.SendTo;
+        }
+
+        device.Properties.BufferSize = 128;
         device.Acquire();
 
-        if (device.Capabilities.ButtonCount == 10)
-        {
-            return new GameMatInput(_logger, _service) { Joystick = device };
-        }
-        else if (device.Capabilities.AxeCount == 5)
-        {
-            return new GamePadInput(_logger, _service) { Joystick = device };
-        }
-
-        return null;
+        return GameInputFactory.Create(type, device, _logger, _service, sendTo);
     }
 }

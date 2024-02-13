@@ -15,10 +15,10 @@ public class MainWindowViewModel : BaseViewModel
 
     public MainWindowViewModel(IRobotControlService robotControlService, IConfiguration configuration)
     {
-        _robotControlService                =  robotControlService;
-        _configuration                      =  configuration;
+        _robotControlService = robotControlService;
+        _configuration       = configuration;
 
-        _robotControlService.ReceivedMessage += async (_, e) => { await ReceivedMessageAsync(e.Item1,e.Item2); };
+        _robotControlService.ReceivedMessage += async (_, e) => { await ReceivedMessageAsync(e.Item1, e.Item2); };
 
         _robotControlService.AddSubscribeToStatAndCmd();
     }

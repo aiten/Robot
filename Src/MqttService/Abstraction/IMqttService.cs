@@ -15,5 +15,4 @@ public interface IMqttService
     Task OnMessageReceived(string topic, string payload);
 
     Task InitAsync();
-
 }
