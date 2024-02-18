@@ -13,4 +13,7 @@ public interface IRobotControlService : IMqttService
     Task<string> Drive(string              robotName, uint direction, uint? speed = null, uint? duration = null);
     Task<string> SetDefaultSpeed(string    robotName, uint speed);
     Task<string> SetDefaultDuration(string robotName, uint duration);
+
+    Task<string> ToRed(string   robotName, uint idx, uint? stayOnGreen);
+    Task<string> ToGreen(string robotName, uint idx, uint? stayOnGreen);
 }

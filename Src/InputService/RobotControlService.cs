@@ -96,4 +96,36 @@ public class RobotControlService : MqttService, IRobotControlService
             return string.Empty;
         }
     }
+
+    public async Task<string> ToRed(string robotName, uint idx, uint? stayOnRed)
+    {
+        var durationStr = stayOnRed.HasValue ? $"\"delay\": {stayOnRed.Value}," : string.Empty;
+
+        try
+        {
+            PublishMessage?.Invoke(this, ($"{MqttConst.TOPIC_CMND}/{robotName}/set", $"{{ {durationStr}\"idx\":{idx},\"toRed\": true }}"));
+            await Task.CompletedTask;
+            return string.Empty;
+        }
+        catch (Exception)
+        {
+            return string.Empty;
+        }
+    }
+
+    public async Task<string> ToGreen(string robotName, uint idx, uint? stayOnGreen)
+    {
+        var durationStr = stayOnGreen.HasValue ? $"\"delay\": {stayOnGreen.Value}," : string.Empty;
+
+        try
+        {
+            PublishMessage?.Invoke(this, ($"{MqttConst.TOPIC_CMND}/{robotName}/set", $"{{ {durationStr}\"idx\":{idx},\"toGreen\": true }}"));
+            await Task.CompletedTask;
+            return string.Empty;
+        }
+        catch (Exception)
+        {
+            return string.Empty;
+        }
+    }
 }
