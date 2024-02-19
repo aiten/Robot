@@ -1,7 +1,6 @@
 ﻿namespace AmpelWpf.Views;
 
 using System.Windows;
-using System.Windows.Input;
 
 using AmpelWpf.ViewModels;
 

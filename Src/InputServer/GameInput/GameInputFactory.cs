@@ -1,7 +1,5 @@
 ﻿namespace InputServer.GameInput;
 
-using System;
-
 using InputService.Abstraction;
 
 using Microsoft.Extensions.Logging;
@@ -14,7 +12,8 @@ internal class GameInputFactory
     {
         None = 0,
         GamePad,
-        GameMat
+        GameMat,
+        Wheel
     }
 
     public static BaseGameInput? Create(DeviceType type, Joystick joystick, ILogger logger, IRobotControlService service, string name)
@@ -23,6 +22,7 @@ internal class GameInputFactory
         {
             DeviceType.GameMat => new GameMatInput(logger, service) { Joystick = joystick, SendToName = name },
             DeviceType.GamePad => new GamePadInput(logger, service) { Joystick = joystick, SendToName = name },
+            DeviceType.Wheel   => new WheelInput(logger, service) { Joystick   = joystick, SendToName = name },
             _                  => null
         };
     }

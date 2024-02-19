@@ -65,7 +65,7 @@ public class MainWindowViewModel : BaseViewModel
         set => SetProperty(ref _ampelColor1, value);
     }
 
-    private string _robotName;
+    private string _robotName = "Robot1";
 
     public string RobotName
     {
@@ -93,7 +93,7 @@ public class MainWindowViewModel : BaseViewModel
 
         if (match.Success && match.Groups[1].Value == RobotName)
         {
-            var idx        = match.Groups[2].Value;
+            var idx = match.Groups[2].Value;
 
             var jsonObject = JsonNode.Parse(payload)!.AsObject();
 
@@ -120,9 +120,11 @@ public class MainWindowViewModel : BaseViewModel
 
                 switch (idx)
                 {
-                    case "0": AmpelColor0 = color;
+                    case "0":
+                        AmpelColor0 = color;
                         break;
-                    case "1": AmpelColor1 = color;
+                    case "1":
+                        AmpelColor1 = color;
                         break;
                 }
 
