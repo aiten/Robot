@@ -14,6 +14,9 @@ public abstract class BaseGameInput
     private readonly ILogger              _logger;
     private readonly IRobotControlService _service;
 
+    public const int MIN_SPEED         = 60;
+    public const int SEND_INTERVAL_ADD = 150; // add time to go
+
     private JoystickState? _joystickState;
     public  Joystick       Joystick { get; set; } = default!;
 
@@ -49,7 +52,7 @@ public abstract class BaseGameInput
         }
         else
         {
-            if (true)       // if usb has the same guid, we do not get all updates!
+            if (true) // if usb has the same guid, we do not get all updates!
             {
                 Joystick.GetCurrentState(ref _joystickState);
             }
@@ -91,15 +94,10 @@ public abstract class BaseGameInput
 
     protected async Task LimitPublishGo(uint direction, uint speed, uint duration)
     {
-        if (speed < 30)
+        if (speed < MIN_SPEED)
         {
             speed = 0;
         }
-        else
-        {
-            speed = (uint)Map((int)speed, 0, 255, 30, 255);
-        }
-
 
         if (speed != 0 || _speed0Sent == false)
         {

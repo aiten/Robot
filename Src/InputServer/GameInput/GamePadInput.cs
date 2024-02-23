@@ -30,6 +30,6 @@ public class GamePadInput : BaseGameInput
         var direction = (uint)(Math.Atan2(-x, y) / Math.PI * 180.0) + 180;
         var speed     = (uint)Math.Min(255, (int)Math.Sqrt((double)x * x + (double)y * y));
 
-        await LimitPublishGo(direction, speed, SEND_INTERVAL + 50);
+        await LimitPublishGo(direction, speed, SEND_INTERVAL + SEND_INTERVAL_ADD);
     }
 }

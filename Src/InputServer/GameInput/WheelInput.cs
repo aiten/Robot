@@ -36,6 +36,6 @@ public class WheelInput : BaseGameInput
             speed     = speedBw;
         }
 
-        await LimitPublishGo(direction, speed, SEND_INTERVAL + 50);
+        await LimitPublishGo(direction, speed, SEND_INTERVAL + SEND_INTERVAL_ADD);
     }
 }
