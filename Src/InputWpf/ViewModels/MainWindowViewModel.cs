@@ -46,20 +46,20 @@ public class MainWindowViewModel : BaseViewModel
         set => SetProperty(ref _lastMoveResult, value);
     }
 
-    private uint _defaultSpeed = 255;
+    private uint _speed = 150;
 
-    public uint DefaultSpeed
+    public uint Speed
     {
-        get => _defaultSpeed;
-        set => SetProperty(ref _defaultSpeed, value);
+        get => _speed;
+        set => SetProperty(ref _speed, value);
     }
 
-    private uint _defaultDuration = 250;
+    private uint _duration = 250;
 
-    public uint DefaultDuration
+    public uint Duration
     {
-        get => _defaultDuration;
-        set => SetProperty(ref _defaultDuration, value);
+        get => _duration;
+        set => SetProperty(ref _duration, value);
     }
 
     private uint _fwBwDuration = 500;
@@ -74,10 +74,8 @@ public class MainWindowViewModel : BaseViewModel
 
     #region Commands
 
-    public ICommand DriveCommand              => new RelayCommand(async (parameter) => await Forward(parameter));
+    public ICommand DriveCommand              => new RelayCommand(async (parameter) => await Drive(parameter));
     public ICommand NewCommand                => new RelayCommand(async (_) => await New());
-    public ICommand SetDefaultSpeedCommand    => new RelayCommand(async (_) => await SetDefaultSpeed());
-    public ICommand SetDefaultDurationCommand => new RelayCommand(async (_) => await SetDefaultDuration());
 
     #endregion
 
@@ -95,24 +93,14 @@ public class MainWindowViewModel : BaseViewModel
         await Task.CompletedTask;
     }
 
-    public async Task SetDefaultSpeed()
-    {
-        LastMoveResult = await _robotControlService.SetDefaultSpeed(_configuration["Robot"] ?? "Robot", DefaultSpeed);
-    }
-
-    public async Task SetDefaultDuration()
-    {
-        LastMoveResult = await _robotControlService.SetDefaultDuration(_configuration["Robot"] ?? "Robot", DefaultDuration);
-    }
-
-    public async Task Forward(object? obj)
+    public async Task Drive(object? obj)
     {
         if (obj is not null)
         {
             var  direction = uint.Parse((string)obj);
             bool isFwBw    = direction == 0 || direction == 180;
-            uint duration  = isFwBw ? FwBwDuration : DefaultDuration;
-            LastMoveResult = await _robotControlService.Drive(_configuration["Robot"] ?? "Robot", direction, duration: duration);
+            uint duration  = isFwBw ? FwBwDuration : Duration;
+            LastMoveResult = await _robotControlService.Drive(_configuration["Robot"] ?? "Robot", direction, Speed, duration);
             MoveCount      = (MoveCount ?? 0) + 1;
         }
     }

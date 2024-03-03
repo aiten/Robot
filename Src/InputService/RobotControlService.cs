@@ -37,28 +37,14 @@ public class RobotControlService : MqttService, IRobotControlService
         ReceivedMessage?.Invoke(this, (topic, payload));
     }
 
-    public async Task<string> Drive(string robotName, uint direction, uint? speed, uint? duration)
-    {
-        try
-        {
-            PublishMessage?.Invoke(this, ($"{MqttConst.TOPIC_CMND}/{robotName}/drive", $"{{ \"direction\": {direction} }}"));
-            await Task.CompletedTask;
-            return string.Empty;
-        }
-        catch (Exception)
-        {
-            return string.Empty;
-        }
-    }
-
-    public async Task<string> Go(string robotName, uint direction, uint? speed, uint? duration)
+    private async Task<string> DriveOrGo(string robotName, string command, uint direction, uint? speed, uint? duration)
     {
         var speedStr    = speed.HasValue ? $"\"speed\": {speed.Value}," : string.Empty;
         var durationStr = duration.HasValue ? $"\"duration\": {duration.Value}," : string.Empty;
 
         try
         {
-            PublishMessage?.Invoke(this, ($"{MqttConst.TOPIC_CMND}/{robotName}/go", $"{{ {speedStr}{durationStr}\"direction\": {direction} }}"));
+            PublishMessage?.Invoke(this, ($"{MqttConst.TOPIC_CMND}/{robotName}/{command}", $"{{ {speedStr}{durationStr}\"direction\": {direction} }}"));
             await Task.CompletedTask;
             return string.Empty;
         }
@@ -68,26 +54,22 @@ public class RobotControlService : MqttService, IRobotControlService
         }
     }
 
-    public async Task<string> SetDefaultSpeed(string robotName, uint speed)
+    public async Task<string> Drive(string robotName, uint direction, uint? speed, uint? duration)
     {
-        try
-        {
-            await Task.CompletedTask;
-            PublishMessage?.Invoke(this, ($"{MqttConst.TOPIC_CMND}/{robotName}/speed", $"{speed}"));
-            return string.Empty;
-        }
-        catch (Exception)
-        {
-            return string.Empty;
-        }
+        return await DriveOrGo(robotName, "drive", direction, speed, duration);
     }
 
-    public async Task<string> SetDefaultDuration(string robotName, uint duration)
+    public async Task<string> Go(string robotName, uint direction, uint? speed, uint? duration)
+    {
+        return await DriveOrGo(robotName, "go", direction, speed, duration);
+    }
+
+    public async Task<string> Stop(string robotName)
     {
         try
         {
+            PublishMessage?.Invoke(this, ($"{MqttConst.TOPIC_CMND}/{robotName}/stop", string.Empty));
             await Task.CompletedTask;
-            PublishMessage?.Invoke(this, ($"{MqttConst.TOPIC_CMND}/{robotName}/duration", $"{duration}"));
             return string.Empty;
         }
         catch (Exception)
