@@ -74,8 +74,8 @@ public class MainWindowViewModel : BaseViewModel
 
     #region Commands
 
-    public ICommand DriveCommand              => new RelayCommand(async (parameter) => await Drive(parameter));
-    public ICommand NewCommand                => new RelayCommand(async (_) => await New());
+    public ICommand DriveCommand => new RelayCommand(async (parameter) => await Drive(parameter));
+    public ICommand NewCommand   => new RelayCommand(async (_) => await New());
 
     #endregion
 
