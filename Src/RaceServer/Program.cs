@@ -9,7 +9,7 @@ using RaceServer;
 
 
 var hostBuilder = Host.CreateDefaultBuilder()
-    .ConfigureAppConfiguration((context, config) => { config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true); })
+    //reloadOnChange: true is already don in base:  .ConfigureAppConfiguration((context, config) => { config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true); })
     .ConfigureServices(services =>
         services
             .AddHostedService<MqttBackgroundService>()

@@ -37,7 +37,7 @@ public class MappingService : MqttService, IMappingService
 
     private void LoadMapping()
     {
-        _logger.LogInformation("Read New mapping configuration");
+        _logger.LogInformation("Read new mapping configuration");
 
         var mapping = _optionsMapping.CurrentValue.Map;
 
