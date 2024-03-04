@@ -21,6 +21,8 @@ public class MainWindowViewModel : BaseViewModel
         _robotControlService.ReceivedMessage += async (_, e) => { await ReceivedMessageAsync(e.Item1, e.Item2); };
 
         _robotControlService.AddSubscribeToStatAndCmd();
+
+        _sendTo = _configuration["Robot"] ?? "Virtual1";
     }
 
     private          IRobotControlService _robotControlService = default!;
@@ -70,12 +72,21 @@ public class MainWindowViewModel : BaseViewModel
         set => SetProperty(ref _fwBwDuration, value);
     }
 
+    private string _sendTo;
+
+    public string SendTo
+    {
+        get => _sendTo;
+        set => SetProperty(ref _sendTo, value);
+    }
+
     #endregion
 
     #region Commands
 
-    public ICommand DriveCommand => new RelayCommand(async (parameter) => await Drive(parameter));
-    public ICommand NewCommand   => new RelayCommand(async (_) => await New());
+    public ICommand DriveCommand  => new RelayCommand(async (parameter) => await Drive(parameter));
+    public ICommand OptionCommand => new RelayCommand(async (parameter) => await Option(parameter));
+    public ICommand NewCommand    => new RelayCommand(async (_) => await New());
 
     #endregion
 
@@ -100,8 +111,22 @@ public class MainWindowViewModel : BaseViewModel
             var  direction = uint.Parse((string)obj);
             bool isFwBw    = direction == 0 || direction == 180;
             uint duration  = isFwBw ? FwBwDuration : Duration;
-            LastMoveResult = await _robotControlService.Drive(_configuration["Robot"] ?? "Robot", direction, Speed, duration);
+            LastMoveResult = await _robotControlService.Drive(SendTo, direction, Speed, duration);
             MoveCount      = (MoveCount ?? 0) + 1;
+        }
+    }
+
+    public async Task Option(object? obj)
+    {
+        if (obj is not null)
+        {
+            var option = uint.Parse((string)obj);
+            switch (option)
+            {
+                case 0:
+                    LastMoveResult = await _robotControlService.Ping(SendTo);
+                    break;
+            }
         }
     }
 

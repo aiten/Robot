@@ -37,6 +37,20 @@ public class RobotControlService : MqttService, IRobotControlService
         ReceivedMessage?.Invoke(this, (topic, payload));
     }
 
+    public async Task<string> Ping(string robotName)
+    {
+        try
+        {
+            PublishMessage?.Invoke(this, ($"{MqttConst.TOPIC_CMND}/{robotName}/ping", string.Empty));
+            await Task.CompletedTask;
+            return string.Empty;
+        }
+        catch (Exception)
+        {
+            return string.Empty;
+        }
+    }
+
     private async Task<string> DriveOrGo(string robotName, string command, uint direction, uint? speed, uint? duration)
     {
         var speedStr    = speed.HasValue ? $"\"speed\": {speed.Value}," : string.Empty;

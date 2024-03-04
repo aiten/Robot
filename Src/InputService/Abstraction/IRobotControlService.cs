@@ -9,6 +9,8 @@ public interface IRobotControlService : IMqttService
 {
     event EventHandler<(string, string)>? ReceivedMessage;
 
+    Task<string> Ping(string robotName);
+
     Task<string> Go(string    robotName, uint direction, uint? speed = null, uint? duration = null);
     Task<string> Drive(string robotName, uint direction, uint? speed = null, uint? duration = null);
     Task<string> Stop(string  robotName);

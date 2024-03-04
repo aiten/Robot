@@ -9,6 +9,7 @@
         Title="Robot Input Controller" Height="600" Width="700">
     <DockPanel KeyDown="DockPanel_KeyDown">
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="10,10">
+            <Button Command="{Binding NewCommand}">New Game</Button>
             <StackPanel Orientation="Horizontal" MinWidth="150">
                 <Label>Move count:</Label><Label Content="{Binding MoveCount}" />
             </StackPanel>
@@ -17,19 +18,26 @@
             </StackPanel>
         </StackPanel>
         <UniformGrid DockPanel.Dock="Bottom" Columns="4" Margin="10,10">
-            <Button Command="{Binding NewCommand}">New Game</Button>
+            <DockPanel>
+                <Label>SendTo:</Label>
+                <TextBox Text="{Binding SendTo}" />
+            </DockPanel>
             <DockPanel>
                 <Label DockPanel.Dock="Left" Content="Speed:" />
-                <TextBox DockPanel.Dock="Left" MinWidth="50" Text="{Binding Path=Speed}" />
+                <TextBox Text="{Binding Path=Speed}" />
             </DockPanel>
             <DockPanel>
                 <Label DockPanel.Dock="Left" Content="Duration:" />
-                <TextBox DockPanel.Dock="Left" MinWidth="50" Text="{Binding Path=Duration}" />
+                <TextBox Text="{Binding Path=Duration}" />
             </DockPanel>
             <DockPanel>
                 <Label DockPanel.Dock="Left" Content="Fw/Bw:" />
-                <TextBox DockPanel.Dock="Left" MinWidth="50" Text="{Binding Path=FwBwDuration}" />
+                <TextBox Text="{Binding Path=FwBwDuration}" />
             </DockPanel>
+        </UniformGrid>
+        <UniformGrid DockPanel.Dock="Top" Columns="2" Rows="1" Margin="10,0">
+            <Button Command="{Binding OptionCommand}" CommandParameter="0">Option 1</Button>
+            <Button Command="{Binding OptionCommand}" CommandParameter="1">Option 2</Button>
         </UniformGrid>
         <UniformGrid Columns="3" Rows="3" Margin="10,10">
             <Button Command="{Binding DriveCommand}" CommandParameter="315">Forward-Left</Button>
