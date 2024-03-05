@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InputWpf", "InputWpf\InputW
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmpelWpf", "AmpelWpf\AmpelWpf.csproj", "{FD6744A1-7D28-4744-A006-A514B9B3B826}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest", "UnitTest\UnitTest.csproj", "{7477652B-04AD-4721-BDEB-6A306B23534E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{FD6744A1-7D28-4744-A006-A514B9B3B826}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD6744A1-7D28-4744-A006-A514B9B3B826}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD6744A1-7D28-4744-A006-A514B9B3B826}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7477652B-04AD-4721-BDEB-6A306B23534E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7477652B-04AD-4721-BDEB-6A306B23534E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7477652B-04AD-4721-BDEB-6A306B23534E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7477652B-04AD-4721-BDEB-6A306B23534E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
