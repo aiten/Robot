@@ -54,12 +54,12 @@ jobs:
 
     # Publish the application (WinForm)
     - name: Publish the application
-      run: dotnet publish $env:AppProject -r win-x86 --configuration $env:Configuration --output .\PublishWinForms\ --self-contained true -p:PublishSingleFile=true
+      run: dotnet publish $env:AppProject -r win-x86 --configuration $env:Configuration --output .\PublishInputWpf\ --self-contained true -p:PublishSingleFile=true
       env:
         Configuration: ${{ matrix.configuration }}
         
-    - name: Upload build artifacts (WinForms)
+    - name: Upload build artifacts (WPF)
       uses: actions/upload-artifact@v3
       with:
-        name: WinForm_x86
-        path: ${{ env.SolutionPath }}\PublishWinForms\
+        name: InputWpf
+        path: ${{ env.SolutionPath }}\PublishInputWpf\
