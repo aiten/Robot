@@ -2,17 +2,18 @@
 
 using System.Threading.Tasks;
 
-
 using FluentAssertions;
 
 using NSubstitute;
 
 using Xunit;
+
 using System.Linq.Expressions;
 using System.Linq;
 using System;
 
 using InputWpf.ViewModels;
+
 using InputService.Abstraction;
 
 using Microsoft.Extensions.Configuration;
@@ -24,7 +25,7 @@ public class MainViewModelTests
     {
         //Arrange
 
-        var robotService = Substitute.For<IRobotControlService>();
+        var robotService  = Substitute.For<IRobotControlService>();
         var configuration = Substitute.For<IConfiguration>();
 
         configuration["Robot"].Returns("Virtual14");
@@ -37,9 +38,9 @@ public class MainViewModelTests
     }
 
     [Theory]
-    [InlineData("0", 100U, 123U, 321U, 321U)]
+    [InlineData("0",   100U, 123U, 321U, 321U)]
     [InlineData("180", 100U, 123U, 321U, 321U)]
-    [InlineData("90", 100U, 123U, 321U, 123U)]
+    [InlineData("90",  100U, 123U, 321U, 123U)]
     public void DriveTest(string direction, uint speed, uint duration, uint fwDuration, uint expectedDuration)
     {
         //Arrange
@@ -50,7 +51,7 @@ public class MainViewModelTests
         configuration["Robot"].Returns("Virtual14");
 
         var mv = new MainWindowViewModel(robotService, configuration);
-        
+
         mv.Speed        = speed;
         mv.Duration     = duration;
         mv.FwBwDuration = fwDuration;
@@ -63,5 +64,4 @@ public class MainViewModelTests
 
         robotService.Received(1).Drive("Virtual14", uint.Parse(direction), speed, expectedDuration);
     }
-
 }
