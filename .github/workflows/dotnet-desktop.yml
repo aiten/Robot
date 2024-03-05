@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 env:
-  SolutionPath: src                         # sub-directory of sln file location
+  SolutionPath: Src                         # sub-directory of sln file location
   SolutionName: Robot.sln                  # Replace with your solution name, i.e. MyWpfApp.sln.
   AppProject: InputWpf/InputWpf.csproj            # Replace with the path to your app project, i.e. MyWpfApp\MyWpfApp.csproj.
   TestProject: UnitTest/UnitTest.csproj             # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
