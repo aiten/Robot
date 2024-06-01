@@ -1,6 +1,7 @@
 ﻿namespace MqttService;
 
 using System;
+using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -161,6 +162,9 @@ public class MqttBackgroundService : BackgroundService
             .Build();
 
         await _mqttClient.PublishAsync(message, _cancellationToken);
+
+//        string line = $"{DateTime.Now:HH:mm:ss.fff};{topic};{value};{retain}";
+//        await File.AppendAllLinesAsync("log.txt", new []{line});
 
         return true;
     }

@@ -51,6 +51,7 @@ public class RobotControlService : MqttService, IRobotControlService
         }
     }
 
+    private uint _id=0;
     private async Task<string> DriveOrGo(string robotName, string command, uint direction, uint? speed, uint? duration)
     {
         var speedStr    = speed.HasValue ? $"\"speed\": {speed.Value}," : string.Empty;
@@ -58,7 +59,7 @@ public class RobotControlService : MqttService, IRobotControlService
 
         try
         {
-            PublishMessage?.Invoke(this, ($"{MqttConst.TOPIC_CMND}/{robotName}/{command}", $"{{ {speedStr}{durationStr}\"direction\": {direction} }}"));
+            PublishMessage?.Invoke(this, ($"{MqttConst.TOPIC_CMND}/{robotName}/{command}", $"{{ {speedStr}{durationStr}\"direction\": {direction},\"id\":{_id++} }}"));
             await Task.CompletedTask;
             return string.Empty;
         }

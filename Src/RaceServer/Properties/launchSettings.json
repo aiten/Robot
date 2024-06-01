@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "RaceServer": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
