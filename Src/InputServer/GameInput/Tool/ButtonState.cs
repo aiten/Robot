@@ -10,6 +10,11 @@ public class ButtonState
 
     public bool IsPressed(bool value)
     {
+        if (_wasPressed && value)
+        {
+            return false;
+        }
+
         if (_wasPressed || !value)
         {
             _wasPressed = false;

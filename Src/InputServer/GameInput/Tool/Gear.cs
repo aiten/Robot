@@ -25,7 +25,7 @@ public class Gear
 
     public uint Poll(JoystickState joystickState)
     {
-        if (_incButtonState.IsPressed(joystickState.Buttons[9]))
+        if (_incButtonState.IsPressed(joystickState.Buttons[_incButtonIdx]))
         {
             if (_speedIdx < _speedTable.Length - 1)
             {
@@ -34,7 +34,7 @@ public class Gear
             }
         }
 
-        if (_decButtonState.IsPressed(joystickState.Buttons[8]))
+        if (_decButtonState.IsPressed(joystickState.Buttons[_decButtonIdx]))
         {
             if (_speedIdx > 0)
             {

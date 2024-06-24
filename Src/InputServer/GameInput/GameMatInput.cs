@@ -13,7 +13,7 @@ public class GameMatInput : BaseGameInput
     private readonly ILogger _logger;
 
     private const int IncButtonIdx = 9;
-    private const int DecButtonIdx = 9;
+    private const int DecButtonIdx = 8;
 
     public GameMatInput(ILogger logger, IRobotControlService service) : base(logger, service)
     {
