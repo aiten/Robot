@@ -45,6 +45,31 @@ public class MappingService : MqttService, IMappingService
         _reverseMapping = mapping.ToDictionary(m => m.Skip(1).First(), m => m.First());
     }
 
+    public IEnumerable<(string from, string to)> GetMapping()
+    {
+        return _mapping.Select(m => (m.Key, m.Value));
+    }
+
+    public void UpdateMapping(string from, string to)
+    {
+        if (_reverseMapping.ContainsKey(to))
+        {
+            RemoveMapping(_reverseMapping[to]);
+        }
+        RemoveMapping(from);
+        RemoveMapping(to);
+        _mapping[from]      = to;
+        _reverseMapping[to] = from;
+    }
+
+    public void RemoveMapping(string from)
+    {
+        _logger.LogInformation($"Remove Mapping: \"{from}\"");
+
+        _mapping.Remove(from);
+        _reverseMapping.Remove(from);
+    }
+
     public async Task InitAsync()
     {
         await Task.CompletedTask;
