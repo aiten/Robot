@@ -58,6 +58,7 @@ public class MappingService : MqttService, IMappingService
         }
         RemoveMapping(from);
         RemoveMapping(to);
+        
         _mapping[from]      = to;
         _reverseMapping[to] = from;
     }
