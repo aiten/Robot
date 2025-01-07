@@ -1,6 +1,7 @@
 ﻿namespace InputService;
 
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 
 using InputService.Abstraction;
@@ -52,14 +53,16 @@ public class RobotControlService : MqttService, IRobotControlService
     }
 
     private uint _id=0;
+    private DateTime _startTime = DateTime.Now;
     private async Task<string> DriveOrGo(string robotName, string command, uint direction, uint? speed, uint? duration)
     {
         var speedStr    = speed.HasValue ? $"\"speed\": {speed.Value}," : string.Empty;
         var durationStr = duration.HasValue ? $"\"duration\": {duration.Value}," : string.Empty;
+        var timeStr     = $"\"time\": {((DateTime.Now - _startTime).TotalMilliseconds/1000.0).ToString(CultureInfo.InvariantCulture)},";
 
         try
         {
-            PublishMessage?.Invoke(this, ($"{MqttConst.TOPIC_CMND}/{robotName}/{command}", $"{{ {speedStr}{durationStr}\"direction\": {direction},\"id\":{_id++} }}"));
+            PublishMessage?.Invoke(this, ($"{MqttConst.TOPIC_CMND}/{robotName}/{command}", $"{{ {speedStr}{durationStr}{timeStr}\"direction\": {direction},\"id\":{_id++} }}"));
             await Task.CompletedTask;
             return string.Empty;
         }
