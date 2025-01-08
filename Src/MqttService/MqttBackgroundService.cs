@@ -1,6 +1,7 @@
 ﻿namespace MqttService;
 
 using System;
+using System.Buffers;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -13,7 +14,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 using MQTTnet;
-using MQTTnet.Client;
 
 public class MqttBackgroundService : BackgroundService
 {
@@ -61,7 +61,7 @@ public class MqttBackgroundService : BackgroundService
     {
         var mqtt = _configuration.GetSection("Mqtt").Get<MqttConfig>()!;
 
-        var factory = new MqttFactory();
+        var factory = new MqttClientFactory();
 
         _mqttClient        = factory.CreateMqttClient();
         _mqttClientOptions = CreateMqttClientOptions(mqtt);
@@ -124,9 +124,9 @@ public class MqttBackgroundService : BackgroundService
         string topic   = mqttEvent.ApplicationMessage.Topic;
         string payload = string.Empty;
 
-        if (mqttEvent.ApplicationMessage.PayloadSegment.Array != null)
+        if (mqttEvent.ApplicationMessage.Payload.Length > 0)
         {
-            payload = Encoding.UTF8.GetString(mqttEvent.ApplicationMessage.PayloadSegment.ToArray());
+            payload = Encoding.UTF8.GetString(mqttEvent.ApplicationMessage.Payload.ToArray());
         }
 
         var qos      = mqttEvent.ApplicationMessage.QualityOfServiceLevel;
