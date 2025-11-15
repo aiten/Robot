@@ -59,7 +59,7 @@ jobs:
         Configuration: ${{ matrix.configuration }}
         
     - name: Upload build artifacts (WPF)
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v5
       with:
         name: InputWpf
         path: ${{ env.SolutionPath }}\PublishInputWpf\
