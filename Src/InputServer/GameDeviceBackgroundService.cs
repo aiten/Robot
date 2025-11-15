@@ -126,10 +126,14 @@ public class GameDeviceBackgroundService : BackgroundService
             if (device.Capabilities.ButtonCount == 10)
             {
                 type = GameInputFactory.DeviceType.GameMat;
+                info = deviceConfigInfo?.FirstOrDefault(d => d.Type == "GameMat");
+                sendTo = info?.SendTo ?? sendTo;
             }
             else if (device.Capabilities.AxeCount == 5)
             {
-                type = GameInputFactory.DeviceType.GamePad;
+                type   = GameInputFactory.DeviceType.GamePad;
+                info   = deviceConfigInfo?.FirstOrDefault(d => d.Type == "GamePad");
+                sendTo = info?.SendTo ?? sendTo;
             }
         }
         else
