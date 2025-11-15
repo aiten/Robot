@@ -16,9 +16,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.11" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="10.0.1" />
-		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="10.0.0" />
-		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.0.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
 
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.11" />
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.11" />
